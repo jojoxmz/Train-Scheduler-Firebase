@@ -13,6 +13,38 @@
 
   console.log('hello');
 
+	database.ref().on("child_added", function(snapshot){
+		console.log(snapshot.val());
+		console.log(snapshot.val().name);
+		console.log(snapshot.val().destination);
+		console.log(snapshot.val().time);
+		console.log(snapshot.val().frequency);
+
+
+
+	// $('#tableBody').append('<tr><td>' + snapshot.val().name + '</td>' + 
+	// 		'<td>' + snapshot.val().name + '</td>' + 
+	// 		'<td>' + snapshot.val().destination + '</td>' +
+	// 		'<td>' + snapshot.val().time + '</td>') +
+	// 		'<td>' + snapshot.val().frequency + '</td>';
+
+	var newRow= `<tr>
+					<td>${snapshot.val().name}</td>
+					<td>${snapshot.val().destination}</td>
+					<td>${snapshot.val().frequency}</td>
+					<td>${snapshot.val().time}</td>
+				</tr>`;
+
+	$('#tableBody').append(newRow);
+
+
+
+
+
+	}, function(errorObject) {
+ 	console.log("Failed: " + errorObject.code);
+	});
+
 
 
 
