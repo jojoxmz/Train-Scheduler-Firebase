@@ -11,6 +11,7 @@
   firebase.initializeApp(config);
 
   var database= firebase.database();
+  var newTrain;
 
 	database.ref().on("child_added", function(snapshot){
 		console.log(snapshot.val());
@@ -37,16 +38,16 @@
 		var tMinutesTillTrain = newestFrequency - tRemainder;
     		console.log("MINUTES TILL TRAIN: " + tMinutesTillTrain);
 
-		var nextTrain = moment().add(tMinutesTillTrain, "minutes");
-   			console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm"));
+		var nextTrain = moment().add(tMinutesTillTrain, "minutes").format("hh:mm A");
+   			console.log("ARRIVAL TIME: " + moment(nextTrain).format("hh:mm A"));
 
-	var newRow= `<tr>
-					<td>${snapshot.val().name}</td>
-					<td>${snapshot.val().destination}</td>
-					<td>${snapshot.val().frequency}</td>
-					<td>${nextTrain}</td>
-					<td>${tMinutesTillTrain}</td>
-				</tr>`;
+		var newRow= `<tr>
+						<td>${snapshot.val().name}</td>
+						<td>${snapshot.val().destination}</td>
+						<td>${snapshot.val().frequency}</td>
+						<td>${nextTrain}</td>
+						<td>${tMinutesTillTrain}</td>
+					</tr>`;
 
 	$('#tableBody').append(newRow);
 
@@ -54,10 +55,7 @@
  	console.log("Failed: " + errorObject.code);
 	});
 
-
-
-
-  $('#submit').on('click', function(e){
+	$('#submit').on('click', function(e){
 	e.preventDefault();
 
 	var trainName= $('#trainNameId').val().trim();
@@ -69,7 +67,7 @@
 	console.log(trainDestination);
 	console.log(trainFrequency);
 
-	var newTrain= {
+	newTrain= {
 		name: trainName,
 		destination: trainDestination,
 		firstTime: firstTrainTime,
@@ -79,6 +77,6 @@
 	console.log(newTrain);
 
 	database.ref().push(newTrain);
-
+	
 	$('.form-group > input').val("");
 });

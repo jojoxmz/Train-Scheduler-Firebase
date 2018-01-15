@@ -1,3 +1,8 @@
 .jumbotron{
-	background: #3a9e88;
+	background: #26292d;
+	color: white;
+}
+
+form{
+	padding: 0px 0px 20px 0px;
 }
